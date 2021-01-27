@@ -21,7 +21,7 @@ int node_size(Node*);
 Node* node_overlying(Node*,void*);
 Node* node_reverse(Node*);
 Node* node_pushback(Node*,void*);
-void node_elimnate(Node*);
+void node_eliminate(Node*);
 Node *node_delete_value(Node*,void*);
 Node* node_splicing(Node*n1,Node*n2);
 

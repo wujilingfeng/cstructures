@@ -4,7 +4,8 @@
 #include "tools_rbtree.h"
 #define RED        0    
 #define BLACK    1   
-
+#define LB_malloc malloc
+#define LB_free free
 static void default_free(void *p)
 {
 
@@ -710,3 +711,5 @@ RB_Tree_func(double)
 
 #undef RED
 #undef BLACK
+#undef LB_free
+#undef LB_malloc

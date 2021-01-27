@@ -7,8 +7,7 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
-#define LB_malloc malloc
-#define LB_free free
+
 
 typedef struct RB_Node{
     unsigned char color;        

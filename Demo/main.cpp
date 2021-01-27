@@ -36,7 +36,7 @@ static int t_cmp(const void* p1,const void* p2)
 
 void test_rb()
 {
-    RB_Tree*tree=(RB_Tree*)LB_malloc(sizeof(RB_Tree));
+    RB_Tree*tree=(RB_Tree*)malloc(sizeof(RB_Tree));
     RB_Tree_init_int(tree);
     RB_int rbt,*rbt1;
     for(int i=0;i<99;i++)
