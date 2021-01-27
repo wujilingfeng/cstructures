@@ -66,7 +66,7 @@ xmake
 |                                                              |                                                              |
 |                                                              |                                                              |
 
-在上面的接口中除了node_delete_value,node_bub_sortn,node_reverse,node_overlying, node_pushback返回的链表的内存和输入链表相关，其他的均无关。
+在上面的接口中除了node_delete_value,node_bub_sortn,node_reverse,node_overlying, node_pushback返回的链表的内存和输入链表相关联，其他的均无关。
 
 ##### RB_Tree
 
@@ -74,7 +74,7 @@ xmake
 
 此时你就可以调用RB_Tree_init_int()就会初始化红黑树的内部函数指针为适配int的函数指针。然后你就可以对这颗红黑树操作了。
 
-以下时RB_Tree内部成员的意义
+以下是RB_Tree内部成员的意义
 
 | 接口                                          | 意义                                               |
 | --------------------------------------------- | -------------------------------------------------- |
@@ -111,9 +111,7 @@ RB_Trav的接口:
 for(Node it=*n;*nit!=NULL;nit++)
 {}
 for(RB_Trav it=*rt;it.it!=NULL;it++)
-{
-    
-}
+{}
 
 ```
 
