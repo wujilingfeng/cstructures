@@ -2,8 +2,8 @@ add_rules("mode.debug", "mode.release")
 
 includes("src/")
 option("demo")
-    set_default("true")
-    set_showmenu("true")
+    set_default(true)
+    set_showmenu(true)
 if has_config("demo") then
     target("main")
         add_deps("cstructures","cstruct_iterator")
