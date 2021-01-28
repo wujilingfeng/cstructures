@@ -6,37 +6,44 @@
 
 本库使用xmake编译，在根目录执行
 
+##### compile library and demo
+
 xmake for windows mingw(假设你已配置好mingw)
 
 ```bash
-xmake f -p mingw -a arm64
-make -v
+xmake f -p mingw -a arm64 --demo=y
+xmake 
 ```
 
 xmake for windows cl(vs的编译器)
 
 ```bash
-xmake 
+xmake --demo=y
 ```
 
-xmake for cmake
+xmake for cmake(for mingw)
 
 ```bash
-xmake f -p mingw -a arm64
+xmake f -p mingw -a arm64 --demo=y
 xmake project -k cmake
 ```
 
 xmake for vs
 
 ```bash
+xmake f --demo=y
 xmake project -k vsxmake -m release
 ```
 
 xmake for linux
 
-```
+```bash
+xmake f --demo=y
 xmake
 ```
+##### compile library only
+
+你只需要将上述`--demo=y`替换为`--demo=n`
 
 #### TUTORIAL
 
