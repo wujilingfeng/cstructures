@@ -4,13 +4,16 @@ includes("src/")
 option("demo")
     set_default(true)
     set_showmenu(true)
-if has_config("demo") then
+option("demo_path")
+    set_showmenu(true)
+
+if has_config("demo") and has_config("demo_path") then
     target("main")
         add_deps("cstructures","cstruct_iterator")
         set_kind("binary")
         set_targetdir("bin")
-        add_files("Demo/*.cpp")
-        add_includedirs("include")
+        add_files("$(demo_path)/*.cpp")
+        add_includedirs("include","$(demo_path)","$(demo_path)/include")
         add_links("cstructures","cstruct_iterator")
         add_linkdirs("temp_libs")
 
