@@ -22,6 +22,8 @@ void RB_Node_init(RB_Node*);
 typedef struct RB_Tree{
     RB_Node *root;
     int (*cmp)(const void* p1,const void* p2);  
+    //copy the data member of RB_Node
+
   void* (*copy)(void*); 
   void  (*del)(void*);  
   unsigned int  size; 
@@ -57,8 +59,8 @@ void* RB_prev(RB_Trav*it);
 
 RB_Node* rbtree_minimum(RB_Tree *);
 RB_Node* rbtree_maximum(RB_Tree *);
-RB_Node* rbtree_successor(RB_Node *x);
-RB_Node* rbtree_predecessor(RB_Node *x);
+//RB_Node* rbtree_successor(RB_Node *x);
+//RB_Node* rbtree_predecessor(RB_Node *x);
 
 RB_Node* RB_find1(RB_Tree* tree,void*data);
 void* RB_find(RB_Tree *tree, void*data);

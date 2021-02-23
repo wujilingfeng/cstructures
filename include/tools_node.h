@@ -21,7 +21,9 @@ int node_size(Node*);
 Node* node_overlying(Node*,void*);
 Node* node_reverse(Node*);
 Node* node_pushback(Node*,void*);
+//remove node from list
 void node_eliminate(Node*);
+//given a value,find the node and remove it from list
 Node *node_delete_value(Node*,void*);
 Node* node_splicing(Node*n1,Node*n2);
 

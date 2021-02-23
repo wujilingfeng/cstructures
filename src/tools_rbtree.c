@@ -84,6 +84,57 @@ void RB_Tree_free(RB_Tree *tree)
 }
 
 
+static RB_Node* rbtree_successor(RB_Node *x)
+{
+    RB_Node* node=NULL;
+
+    if (x->right != NULL)
+    {
+        node=x->right;
+        while(node->left!=NULL)
+        {
+            node=node->left;
+        }
+        return node;
+    } 
+    else
+    {
+        node = x->parent;
+        while ((node!=NULL) && (x==node->right))
+        {
+            x = node;
+            node = node->parent;
+        }
+    }
+    return node;
+}
+ 
+
+static RB_Node* rbtree_predecessor(RB_Node *x)
+{
+    RB_Node* node=NULL;
+ 
+    if (x->left != NULL)
+    {
+        node=x->left;
+        while(node->right!=NULL)
+        {
+            node=node->right;
+        }
+        return node;
+    }
+    else
+    {
+
+        node = x->parent;
+        while ((node!=NULL) && (x==node->left))
+        {
+            x = node;
+            node = node->parent;
+        }
+    }
+    return node;
+}
 static void rbtree_right_rotate(RB_Tree *tree, RB_Node *y)
 {
    
@@ -116,25 +167,20 @@ static void rbtree_right_rotate(RB_Tree *tree, RB_Node *y)
     }
 
     
-    x->right = y;
-
-   
+    x->right = y; 
     y->parent = x;
 }
 
 static void rbtree_left_rotate(RB_Tree *tree, RB_Node *x)
 {
    
-    RB_Node *y = x->right;
-
-   
+    RB_Node *y = x->right; 
     x->right = y->left;
     if (y->left != NULL)
     {
         y->left->parent = x;
     }
-
-  
+ 
     y->parent = x->parent;
 
     if (x->parent == NULL)
@@ -164,72 +210,59 @@ static void rbtree_insert_fixup(RB_Tree *tree, RB_Node *node)
 {
     RB_Node *parent, *gparent;
 
-
-    while ((parent = node->parent )&&parent->color==RED) 
+  //  printf("fdfdsfds\n");
+    parent=node->parent;
+    while (parent!=NULL&&parent->color==RED) 
     {
+
         gparent = parent->parent;
-
-
         if (parent == gparent->left)
         {
-
+            RB_Node *uncle = gparent->right;
+            if (uncle!=NULL&&uncle->color==RED)
             {
-                RB_Node *uncle = gparent->right;
-                if (uncle && uncle==RED)
-                {
-                    uncle->color=BLACK;
-                    parent->color=BLACK;
-                    gparent->color=RED;
-                    node = gparent;
-                    continue;
-                }
+                //printf("cunzai dfsd \n");
+                uncle->color=BLACK;
+                parent->color=BLACK;
+                gparent->color=RED;
+                node = gparent;
+                continue;
             }
-
-
             if (parent->right == node)
             {
-                RB_Node *tmp;
                 rbtree_left_rotate(tree, parent);
-                tmp = parent;
+                RB_Node*tmp = parent;
                 parent = node;
                 node = tmp;
             }
-
-
             parent->color=BLACK;
             gparent->color=RED;
             rbtree_right_rotate(tree, gparent);
         } 
         else
-        {
-         
+        { 
+            RB_Node *uncle = gparent->left;
+            if (uncle!=NULL && uncle->color==RED)
             {
-                RB_Node *uncle = gparent->left;
-                if (uncle && uncle==RED)
-                {
-                    uncle->color=BLACK;
-                    parent->color=BLACK;
-                    gparent->color=RED;
-                    node = gparent;
-                    continue;
-                }
+                //printf("cunzai dfsd \n");
+                uncle->color=BLACK;
+                parent->color=BLACK;
+                gparent->color=RED;
+                node = gparent;
+                continue;
             }
-
-            
             if (parent->left == node)
             {
-                RB_Node *tmp;
                 rbtree_right_rotate(tree, parent);
-                tmp = parent;
+                RB_Node*tmp = parent;
                 parent = node;
                 node = tmp;
-            }
-
-           
+            } 
             parent->color=BLACK;
             gparent->color=RED;
             rbtree_left_rotate(tree, gparent);
         }
+        parent=node->parent;
     }
 
     tree->root->color=BLACK;
@@ -274,7 +307,6 @@ void* RB_insert(RB_Tree *tree ,void* data)
         else
         {
             tree->del(x->data); 
-
             x->data=node->data;
             LB_free(node);
             tree->size--;
@@ -285,9 +317,7 @@ void* RB_insert(RB_Tree *tree ,void* data)
     {
         tree->root = node;         
     }
-    node1->color = RED;
-
- 
+    node1->color = RED; 
     rbtree_insert_fixup(tree, node1);
     return node1->data;
 }
@@ -364,8 +394,7 @@ RB_Node* rbtree_minimum(RB_Tree *tree)
         {
             node=node->left;
         }
-        return node;
-        
+        return node; 
     }
 
     if (node == NULL)
@@ -403,63 +432,11 @@ RB_Node* rbtree_maximum(RB_Tree *tree)
 }
 
 
-RB_Node* rbtree_successor(RB_Node *x)
-{
-    RB_Node* node=NULL;
-
-    if (x->right != NULL)
-    {
-        node=x->right;
-        while(node->left!=NULL)
-        {
-            node=node->left;
-        }
-        return node;
-    }
-
-  
-    else
-    {
-        node = x->parent;
-        while ((node!=NULL) && (x==node->right))
-        {
-            x = node;
-            node = node->parent;
-        }
-    }
-    return node;
-}
- 
-
-RB_Node* rbtree_predecessor(RB_Node *x)
-{
-    RB_Node* node=NULL;
- 
-    if (x->left != NULL)
-    {
-        node=x->left;
-        while(node->right!=NULL)
-        {
-            node=node->right;
-        }
-        return node;
-    }
-    else
-    {
-
-        node = x->parent;
-        while ((node!=NULL) && (x==node->left))
-        {
-            x = node;
-            node = node->parent;
-        }
-    }
-    return node;
-}
 RB_Node* RB_find1(RB_Tree* tree,void*data)
 {
      RB_Node* node=tree->root;
     int re=0;
+    //int ceng=0;
     while(node!=NULL)
     {
         re=tree->cmp(data,node->data);
@@ -473,8 +450,10 @@ RB_Node* RB_find1(RB_Tree* tree,void*data)
         }
         else
         {
+           // printf("ceng:%d\n",ceng);
             return node;
         }
+        //ceng++;
     }
     return NULL;
 }

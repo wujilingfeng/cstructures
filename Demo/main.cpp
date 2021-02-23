@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<tools_rbtree.h>
-
+#include<tools_avltree.h>
 #include <tools/tools_int_map.h>
 
 int memery_leak_from_RB_Tree_compute;
@@ -144,9 +144,38 @@ int main(int argc,char**argv)
     memery_leak_from_RB_Tree_compute=0;
     memery_leak_from_RB_Tree_compute_f=0;
     RB_INT_MAP rim;
-    rim.insert(3,NULL); 
-    
+    rim.insert(-18,NULL); 
+    rim.insert(5,NULL);
+    rim.insert(7,NULL);
+    rim.insert(-9,NULL);
+    rim.insert(0,NULL);
+    rim.insert(-50,NULL);
+    rim.insert(3,NULL);
+    rim.insert(8,NULL);
+    rim.insert(100,NULL);
+    rim.insert(-100,NULL);
+    rim.insert(50,NULL);
+    rim.insert(26,NULL);
+    rim.insert(75,NULL);
+    rim.insert(35,NULL);
+    rim.insert(80,NULL);
+    rim.insert(20,NULL);
+    rim.insert(90,NULL);
+    rim.insert(-95,NULL);
+    rim.insert(-36,NULL);
+    rim.insert(-77,NULL);
+    rim.insert(45,NULL);
+    rim.insert(101,NULL);
+    rim.insert(103,NULL);
+    rim.insert(107,NULL);
+    rim.insert(110,NULL);
+    rim.insert(111,NULL);
+    rim.insert(112,NULL);
+    rim.insert(113,NULL);
+            //printf("fdfdsfds\n");
+
     rim.print_self();
+    rim.find(113);
     rim.clear();
 
     Node* n1=NULL,*n2=NULL;
@@ -154,7 +183,14 @@ int main(int argc,char**argv)
     n3=node_intersection(n1,n2); 
     test_bub();
 
-
+    // if(NULL)
+    // {
+    //     printf("shi\n");
+    // }
+    // else
+    // {
+    //     printf("fdsfdsf\n");
+    // }
    /// node_bub_sortn(Node* n,int (*cmp)(void* a,void* b));
 
    // rbt1=(RB_int*)(tree->find(tree,&rbt));

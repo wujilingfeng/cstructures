@@ -100,7 +100,7 @@ public:
 		}	
 
 
-  //  	printf("\n");
+    	printf("\n");
 	}	
 	RB_Tree*tree;
 

@@ -1,7 +1,6 @@
 {
-    files = {
-        "src/tools_rbtree.c"
-    },
+    depfiles_gcc = "build/.objs/cstructures/linux/x86_64/release/src/tools_avltree.c.o:  src/tools_avltree.c include/tools_avltree.h\
+",
     values = {
         "/usr/bin/gcc",
         {
@@ -12,6 +11,7 @@
             "-DNDEBUG"
         }
     },
-    depfiles_gcc = "build/.objs/cstructures/linux/x86_64/release/src/tools_rbtree.c.o:  src/tools_rbtree.c include/tools_rbtree.h\
-"
+    files = {
+        "src/tools_avltree.c"
+    }
 }
