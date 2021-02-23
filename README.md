@@ -11,34 +11,34 @@
 xmake for windows mingw(假设你已配置好mingw)
 
 ```bash
-xmake f -p mingw -a arm64 --demo=y
+xmake f -p mingw  --demo=y --demo_path="Demo"
 xmake 
 ```
 
 xmake for windows cl(vs的编译器)
 
 ```bash
-xmake --demo=y
+xmake --demo=y --demo_path="Demo"
 ```
 
 xmake for cmake(for mingw)
 
 ```bash
-xmake f -p mingw -a arm64 --demo=y
+xmake f -p mingw -a arm64 --demo=y --demo_path="Demo"
 xmake project -k cmake
 ```
 
 xmake for vs
 
 ```bash
-xmake f --demo=y
+xmake f --demo=y --demo_path="Demo"
 xmake project -k vsxmake -m release
 ```
 
 xmake for linux
 
 ```bash
-xmake f --demo=y
+xmake f --demo=y --demo_path="Demo"
 xmake
 ```
 ##### compile library only
