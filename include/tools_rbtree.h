@@ -25,6 +25,7 @@ typedef struct RB_Tree{
     //copy the data member of RB_Node
 
   void* (*copy)(void*); 
+  //free the data memeber of RB_Node
   void  (*del)(void*);  
   unsigned int  size; 
 	void *(*find)(struct RB_Tree*,void*);

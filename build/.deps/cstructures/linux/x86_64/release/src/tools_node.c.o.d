@@ -9,6 +9,8 @@
             "-fvisibility=hidden",
             "-O3",
             "-Iinclude",
+            "-g",
+            "-Wall",
             "-DNDEBUG"
         }
     },

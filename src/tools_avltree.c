@@ -1,22 +1,46 @@
 #include<tools_avltree.h>
-
-
-
+static void default_free(void *p)
+{
+    free(p);
+}
+void avl_node_init(AVL_Node* an)
+{
+    an->left=NULL;
+    an->right=NULL;
+    an->parent=NULL;
+    an->data=NULL;
+    an->prop=NULL;
+}
+void avl_tree_init(AVL_Tree* at)
+{
+    at->root=NULL;
+    at->end=NULL;
+    at->cmp=NULL;
+    at->copy=NULL;
+    at->del=NULL;
+    at->size=0;
+    at->prop=NULL;
+}
+//return the newly added node
 AVL_Node* avl_increase(AVL_Node* n)
 {
     AVL_Node* nn=(AVL_Node*)malloc(sizeof(AVL_Node));
     avl_node_init(nn);
+    // if n=null,which means there is no node
     if(n==NULL)
     {
         return nn;
     }
     AVL_Node* root=n;
+
+    //recursion 
     while(root->parent!=NULL&&root->parent->right==root)
     {
         root=root->parent;
     } 
     if(root->parent!=NULL)
     {
+
         if(root->parent->right==NULL)
         {
             root=root->parent;
@@ -37,6 +61,8 @@ AVL_Node* avl_increase(AVL_Node* n)
     }
     else
     {
+
+    //if the node of root is a root of avltree
         while(root->left!=NULL)
         {
             root=root->left;
@@ -49,6 +75,8 @@ AVL_Node* avl_increase(AVL_Node* n)
     return nn;
 
 }
+//find the node which vale equals data
+//or find the node which is " closest  to data  "
 AVL_Node* my_find(AVL_Tree* tree,void* data)
 {
     AVL_Node*n=tree->root;
@@ -56,7 +84,7 @@ AVL_Node* my_find(AVL_Tree* tree,void* data)
     {
         return NULL;
     }
-    while(tree->cmp(n->data,data)==0)
+    while(tree->cmp(n->data,data)!=0)
     {
         if(n->left==NULL&&tree->cmp(data,n->data)<0)
         {
@@ -83,7 +111,7 @@ AVL_Node* my_find(AVL_Tree* tree,void* data)
 
     return n;
 }
-
+//
 AVL_Node* my_insert(AVL_Tree* tree,void* data)
 {
     if(tree==NULL)
@@ -105,12 +133,18 @@ static AVL_Node* avl_node_overlying(AVL_Node* an,void* v)
     return n1;
 
 }
+//return n1> n2 ?
 static int compare_two_node(AVL_Node* n1,AVL_Node* n2)
 {
+    if(n1==n2)
+    {
+        return 0;
+    }
     if(n1==NULL||n2==NULL)
     {
         return -1;
-    } 
+    }
+
     AVL_Node* temp=n1,*node1=NULL,*node2=NULL;
     int i=0;
     while(temp!=NULL)
@@ -174,7 +208,7 @@ static int compare_two_node(AVL_Node* n1,AVL_Node* n2)
     return 0;
 }
 
-
+//next node which greater than n
 AVL_Node* successor(AVL_Node* n)
 {
     if(n==NULL)
@@ -206,12 +240,11 @@ AVL_Node* successor(AVL_Node* n)
 }
 AVL_Node* predecessor(AVL_Node* n)
 { 
-    AVL_Node* node=NULL;
     if(n==NULL)
     {
         return NULL;
     } 
-    AVL_Node* x=n;
+    AVL_Node* x=n,*node=NULL;
     if(x->left!=NULL)
     {
         node=x->left;
@@ -233,7 +266,7 @@ AVL_Node* predecessor(AVL_Node* n)
     }
     return node;
 }
-
+//
 void avl_insert(AVL_Tree* tree,void*data)
 {
     AVL_Node* n=my_insert(tree,data);
@@ -256,7 +289,7 @@ void avl_insert(AVL_Tree* tree,void*data)
         AVL_Node* nn=avl_increase(tree->end);
         tree->size++;
         tree->end=nn;
-        if(nn->parent==n&&((n->left==n&&tree->cmp(data,n->data)<0)||(n->right==nn&&tree->cmp(data,n->data)>0)))
+        if(nn->parent==n&&((n->left==nn&&tree->cmp(data,n->data)<0)||(n->right==nn&&tree->cmp(data,n->data)>0)))
         {
             tree->del(nn->data);
             nn->data=tree->copy(data);

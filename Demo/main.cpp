@@ -183,6 +183,12 @@ int main(int argc,char**argv)
     n3=node_intersection(n1,n2); 
     test_bub();
 
+    AVL_Tree * at=(AVL_Tree*)malloc(sizeof(AVL_Tree));
+    avl_tree_init(at);
+    
+    //printf("fdsfdsfsdfffffffffffff\n");
+    // AVL_Node* an1=(AVL_Node*)malloc(sizeof(AVL_Node));
+    // avl_node_init(an1);
     // if(NULL)
     // {
     //     printf("shi\n");

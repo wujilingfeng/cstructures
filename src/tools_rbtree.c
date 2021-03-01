@@ -1,6 +1,3 @@
-
-
-
 #include "tools_rbtree.h"
 #define RED        0    
 #define BLACK    1   
