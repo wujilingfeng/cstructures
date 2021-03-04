@@ -58,8 +58,8 @@ RB_Trav* RB_rbegin(RB_Tree*tree);
 void* RB_next(RB_Trav*it);
 void* RB_prev(RB_Trav*it);
 
-RB_Node* rbtree_minimum(RB_Tree *);
-RB_Node* rbtree_maximum(RB_Tree *);
+//RB_Node* rbtree_minimum(RB_Tree *);
+//RB_Node* rbtree_maximum(RB_Tree *);
 //RB_Node* rbtree_successor(RB_Node *x);
 //RB_Node* rbtree_predecessor(RB_Node *x);
 

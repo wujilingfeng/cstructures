@@ -136,8 +136,7 @@ static void rbtree_right_rotate(RB_Tree *tree, RB_Node *y)
 {
    
     RB_Node *x = y->left;
-
-    
+ 
     y->left = x->right;
     if (x->right != NULL)
     {
@@ -318,6 +317,49 @@ void* RB_insert(RB_Tree *tree ,void* data)
     rbtree_insert_fixup(tree, node1);
     return node1->data;
 }
+
+
+static RB_Node* rbtree_minimum(RB_Tree *tree)
+{
+    RB_Node *node=NULL;
+
+    if (tree!=NULL)
+    {
+        if(tree->root==NULL)
+        {
+            return NULL;
+        }
+        node=tree->root;
+        while(node->left!=NULL)
+        {
+            node=node->left;
+        }
+        return node; 
+    }
+
+    return NULL;
+}
+
+static RB_Node* rbtree_maximum(RB_Tree *tree)
+{
+    RB_Node *node=NULL;
+
+    if (tree!=NULL)
+    {
+        if(tree->root==NULL)
+        {
+            return NULL;
+        }
+        node=tree->root;
+        while(node->right!=NULL)
+        {
+            node=node->right;
+        }
+        return node;
+        
+    }
+    return NULL;
+}
 RB_Trav* RB_begin(RB_Tree*tree)
 {
    RB_Trav*re=(RB_Trav*)LB_malloc(sizeof(RB_Trav));
@@ -376,57 +418,7 @@ void* RB_prev(RB_Trav*it)
    } 
 
 }
-RB_Node* rbtree_minimum(RB_Tree *tree)
-{
-    RB_Node *node=NULL;
 
-    if (tree!=NULL)
-    {
-        if(tree->root==NULL)
-        {
-            return NULL;
-        }
-        node=tree->root;
-        while(node->left!=NULL)
-        {
-            node=node->left;
-        }
-        return node; 
-    }
-
-    if (node == NULL)
-    {
-        return NULL;
-    }
-
-    return NULL;
-}
-
-RB_Node* rbtree_maximum(RB_Tree *tree)
-{
-    RB_Node *node=NULL;
-
-    if (tree!=NULL)
-    {
-        if(tree->root==NULL)
-        {
-            return NULL;
-        }
-        node=tree->root;
-        while(node->right!=NULL)
-        {
-            node=node->right;
-        }
-        return node;
-        
-    }
-
-    if (node == NULL)
-    {
-        return NULL;
-    }
-    return NULL;
-}
 
 
 RB_Node* RB_find1(RB_Tree* tree,void*data)
@@ -567,8 +559,6 @@ int RB_erase(RB_Tree*tree,void*data)
     tree->size--; 
     RB_Node *child, *parent;
     int color;
-
-
     if ( (node->left!=NULL) && (node->right!=NULL) ) 
     {
     

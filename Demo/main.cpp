@@ -33,7 +33,12 @@ static int t_cmp(const void* p1,const void* p2)
    return 0;
 }
 */
-
+void test_avltree()
+{
+    AVL_Tree * at=(AVL_Tree*)malloc(sizeof(AVL_Tree));
+    avl_tree_init(at);
+     
+}
 void test_rb()
 {
     RB_Tree*tree=(RB_Tree*)malloc(sizeof(RB_Tree));
@@ -183,8 +188,8 @@ int main(int argc,char**argv)
     n3=node_intersection(n1,n2); 
     test_bub();
 
-    AVL_Tree * at=(AVL_Tree*)malloc(sizeof(AVL_Tree));
-    avl_tree_init(at);
+    //AVL_Tree * at=(AVL_Tree*)malloc(sizeof(AVL_Tree));
+    //avl_tree_init(at);
     
     //printf("fdsfdsfsdfffffffffffff\n");
     // AVL_Node* an1=(AVL_Node*)malloc(sizeof(AVL_Node));
