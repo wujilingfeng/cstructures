@@ -33,12 +33,7 @@ static int t_cmp(const void* p1,const void* p2)
    return 0;
 }
 */
-void test_avltree()
-{
-    AVL_Tree * at=(AVL_Tree*)malloc(sizeof(AVL_Tree));
-    avl_tree_init(at);
-     
-}
+
 void test_rb()
 {
     RB_Tree*tree=(RB_Tree*)malloc(sizeof(RB_Tree));
@@ -144,6 +139,40 @@ void test_bub()
 
 
 }
+
+void test_avltree()
+{
+    AVL_Tree * tree=(AVL_Tree*)malloc(sizeof(AVL_Tree));
+    avl_tree_init_int(tree);
+    AVL_int at,*at1;
+    at.key=-18;tree->insert(tree,&at);
+
+    //printf("tree size:%d\n",tree->size);
+    at.key=5;tree->insert(tree,&at);
+    at.key=7;tree->insert(tree,&at);
+    at.key=-9;tree->insert(tree,&at);
+    at.key=0;tree->insert(tree,&at);
+    at.key=-50;tree->insert(tree,&at);
+    at.key=3;tree->insert(tree,&at);
+    at.key=8;tree->insert(tree,&at);
+
+    at.key=100;tree->insert(tree,&at);
+    at.key=-100;tree->insert(tree,&at);
+    at.key=50;tree->insert(tree,&at);
+    at.key=26;tree->insert(tree,&at);
+    at.key=75;tree->insert(tree,&at);
+    at.key=0;tree->erase(tree,&at);
+    at.key=26;tree->erase(tree,&at);
+    at.key=50;tree->erase(tree,&at);
+    at.key=3;
+    //printf("tree size:%d\n",tree->size);
+    at1=(AVL_int*)(tree->find(tree,&at));
+    if(at1!=NULL)
+    {
+        printf("chenggong:%d\n",at1->key);
+    } 
+    avl_tree_free(tree);
+}
 int main(int argc,char**argv)
 {   
     memery_leak_from_RB_Tree_compute=0;
@@ -177,7 +206,14 @@ int main(int argc,char**argv)
     rim.insert(111,NULL);
     rim.insert(112,NULL);
     rim.insert(113,NULL);
-            //printf("fdfdsfds\n");
+    RB_int rbt;rbt.key=107;
+    rim.tree->erase(rim.tree,&rbt);
+    rbt.key=0;
+    rim.tree->erase(rim.tree,&rbt);
+    rbt.key=80; 
+
+   // rim.tree->erase(rim.tree,&rbt);
+            //printf("fdfdsfds\n") rim.tree->erase(rim.tree,&rbt);;
 
     rim.print_self();
     rim.find(113);
@@ -216,6 +252,7 @@ int main(int argc,char**argv)
   //  RB_Tree_free(tree);
 
     //RB_Tree_free(tree);
+    test_avltree();
     printf("end\nleak m :%d,leak f:%d\n",memery_leak_from_RB_Tree_compute,memery_leak_from_RB_Tree_compute_f);
     return 0;
 }

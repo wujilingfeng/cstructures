@@ -4,6 +4,27 @@
 extern "C"{
 #endif
 #include<stdlib.h>
+
+
+
+
+#if defined(offsetof)
+  #undef offsetof
+  #define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+#else 
+  #define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+#endif
+#if defined(container_of)
+  #undef container_of
+  #define container_of(ptr, type, member) ({            \
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
+        (type *)( (char *)__mptr - offsetof(type,member) );})
+#else
+  #define container_of(ptr, type, member) ({            \
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);    \
+        (type *)( (char *)__mptr - offsetof(type,member) );})
+#endif
+
 typedef struct Node
 {
     void* Prev;
@@ -12,10 +33,20 @@ typedef struct Node
     void* traits;
 
 }Node;
+
+
+static inline void Node_init(Node*node)
+{
+
+    node->Prev=NULL;
+    node->Next=NULL;
+    node->value=NULL;
+    node->traits=NULL;
+}
+//void Node_init(Node*);
 void free_node(Node*);
 void free_node_value(Node*);
 Node* node_find(Node*,void*);
-void Node_init(Node*);
 Node* node_copy(Node*);
 int node_size(Node*);
 Node* node_overlying(Node*,void*);

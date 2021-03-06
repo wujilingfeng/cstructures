@@ -104,14 +104,6 @@ Node* node_copy(Node* node)
 
     return node1;
 }
-void Node_init(Node*node)
-{
-
-    node->Prev=NULL;
-    node->Next=NULL;
-    node->value=NULL;
-    node->traits=NULL;
-}
 
 Node* node_overlying(Node*node,void *value)
 {

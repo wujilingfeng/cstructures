@@ -8,7 +8,8 @@
 extern "C"{
 #endif
 
-
+#define RED        0    
+#define BLACK    1   
 typedef struct RB_Node{
     unsigned char color;        
     struct RB_Node *left;    
@@ -17,7 +18,13 @@ typedef struct RB_Node{
     void* data;
     void *prop;
 }RB_Node;
-void RB_Node_init(RB_Node*);
+
+
+static inline void lb_default_free(void *p)
+{
+    free(p);
+}
+//static inline void RB_Node_init(RB_Node*);
 
 typedef struct RB_Tree{
     RB_Node *root;
@@ -38,7 +45,9 @@ typedef struct RB_Tree{
     void* prop;
 }RB_Tree;
 
-void RB_Tree_init(RB_Tree*);
+//void RB_Tree_init(RB_Tree*);
+
+
 typedef struct RB_Trav{
 	RB_Tree*tree;
 	RB_Node* it;
@@ -49,7 +58,7 @@ typedef struct RB_Trav{
 	void*prop;
 
 }RB_Trav;
-void RB_Trav_init(RB_Trav*);
+
 void RB_Tree_free(RB_Tree*tree);
 
 void* RB_insert(RB_Tree *, void *data);
@@ -66,34 +75,70 @@ void* RB_prev(RB_Trav*it);
 RB_Node* RB_find1(RB_Tree* tree,void*data);
 void* RB_find(RB_Tree *tree, void*data);
 int RB_erase(RB_Tree*,void*);
+static inline void RB_Node_init(RB_Node*node)
+{
+    node->color=RED;
+    node->parent=NULL;
+    node->left=NULL;
+    node->right=NULL;
 
+    node->data=NULL;
+    node->prop=NULL;
+}
+static inline void RB_Tree_init(RB_Tree* tree)
+{
+    tree->root=NULL;
+    tree->cmp=NULL;
+    tree->copy=NULL;
+    tree->del=lb_default_free;
+    tree->size=0;
+    tree->find=RB_find;
+    tree->insert=RB_insert;
+    tree->erase=RB_erase;
+    tree->begin=RB_begin;
+    tree->rbegin=RB_rbegin;
+    tree->iterator_init=NULL;
+    tree->prop=NULL;
+}
+static inline void RB_Trav_init(RB_Trav* it)
+{
+    it->tree=NULL;
+    it->next=RB_next;
+    it->prev=RB_prev;
+    it->it=NULL;
+    it->prop=NULL;
+}
 
 #define RB_Tree_func_declare(typevalue) typedef struct RB_##typevalue{typevalue key;void* value;void* prop;}RB_##typevalue;\
-void RB_init_##typevalue(RB_##typevalue*);\
-int RB_cmp_##typevalue(const void*p1,const void*p2 );\
+static void RB_init_##typevalue(RB_##typevalue* t)\
+{\
+t->value=NULL;\
+t->prop=NULL;\
+}\
+int RB_cmp_##typevalue(const void*p1,const void*p2);\
 void RB_Tree_init_##typevalue(RB_Tree*);
 
 
 #define RB_Tree_func(typevalue)  int RB_cmp_##typevalue(const void*p1,const void*p2)\
 {\
 RB_##typevalue *q1=(RB_##typevalue*)p1,*q2=(RB_##typevalue*)p2;\
-	if(q1->key>q2->key)\
-	{\
-		return 1;\
-	}\
-	else if(q1->key<q2->key)\
-	{\
-		return -1;\
-	}\
-	return 0;\
+    if(q1->key>q2->key)\
+    {\
+        return 1;\
+    }\
+    else if(q1->key<q2->key)\
+    {\
+        return -1;\
+    }\
+    return 0;\
 }\
-static void* RB_copy_##typevalue(void* p)\
+static  void* RB_copy_##typevalue(void* p)\
 {\
 	void* re=malloc(sizeof(RB_##typevalue));\
 	memmove(re,p,sizeof(RB_##typevalue));\
 	return re;\
 }\
-static void * get_key_##typevalue(RB_Trav* trav)\
+static  void * get_key_##typevalue(RB_Trav* trav)\
 {\
 	return (void*)(&(((RB_##typevalue*)(trav->it->data))->key));\
 }\
@@ -113,14 +158,13 @@ void RB_Tree_init_##typevalue(RB_Tree* tree)\
 	tree->cmp=RB_cmp_##typevalue;\
 	tree->iterator_init=iter_init_##typevalue;\
 }\
-void RB_init_##typevalue(RB_##typevalue* t)\
-{\
-t->value=NULL;\
-t->prop=NULL;\
-}
+
 
 RB_Tree_func_declare(int)
 RB_Tree_func_declare(double)
+
+#undef RED
+#undef BLACK
 #ifdef __cplusplus
 }
 #endif

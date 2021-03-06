@@ -93,6 +93,7 @@ public:
 	}
 	void print_self()
 	{
+		printf("size:%d\n",this->tree->size);
 		for(auto it=this->begin();it!=this->end();it++)
 		{
 

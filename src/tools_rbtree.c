@@ -3,45 +3,7 @@
 #define BLACK    1   
 #define LB_malloc malloc
 #define LB_free free
-static void default_free(void *p)
-{
 
-    LB_free(p);
-}
-
-void RB_Node_init(RB_Node*node)
-{
-    node->color=RED;
-    node->parent=NULL;
-    node->left=NULL;
-    node->right=NULL;
-
-    node->data=NULL;
-    node->prop=NULL;
-}
-void RB_Tree_init(RB_Tree* tree)
-{
-    tree->root=NULL;
-    tree->cmp=NULL;
-    tree->copy=NULL;
-    tree->del=default_free;
-    tree->size=0;
-    tree->find=RB_find;
-    tree->insert=RB_insert;
-    tree->erase=RB_erase;
-    tree->begin=RB_begin;
-    tree->rbegin=RB_rbegin;
-    tree->iterator_init=NULL;
-    tree->prop=NULL;
-}
-void RB_Trav_init(RB_Trav* it)
-{
-    it->tree=NULL;
-    it->next=RB_next;
-    it->prev=RB_prev;
-    it->it=NULL;
-    it->prop=NULL;
-}
 static void RB_Tree_Node_free(RB_Tree*tree,RB_Node* node)
 {
     if(node==NULL)

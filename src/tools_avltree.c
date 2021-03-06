@@ -1,34 +1,6 @@
 #include<tools_avltree.h>
-static void default_free(void *p)
-{
-    free(p);
-}
-void avl_node_init(AVL_Node* an)
-{
-    an->left=NULL;
-    an->right=NULL;
-    an->parent=NULL;
-    an->data=NULL;
-    an->prop=NULL;
-}
-void avl_tree_init(AVL_Tree* at)
-{
-    at->root=NULL;
-    at->end=NULL;
-    at->cmp=NULL;
-    at->copy=NULL;
-    at->del=default_free;
-    at->size=0;
-    at->find=avl_find;
-    at->insert=avl_insert;
-    at->erase=avl_delete_data;
-    
-    at->begin=avl_tree_begin;
-    at->rbegin=avl_tree_rbegin;
 
-    at->iterator_init=NULL; 
-    at->prop=NULL;
-}
+
 
 
 
@@ -160,7 +132,7 @@ static AVL_Node* my_find(AVL_Tree* tree,void* data)
     return n;
 }
 
-AVL_Node* avl_find(AVL_Tree* tree,void* data)
+static inline AVL_Node* avl_find(AVL_Tree* tree,void* data)
 {
     AVL_Node* n=my_find(tree,data);
     if(tree->cmp(data,n->data)==0)
@@ -168,6 +140,16 @@ AVL_Node* avl_find(AVL_Tree* tree,void* data)
         return n;
     }
 
+    return NULL;
+}
+
+void* avl_findn(AVL_Tree* tree,void* data)
+{
+    AVL_Node* n=avl_find(tree,data);
+    if(n!=NULL)
+    {
+        return n->data;
+    }
     return NULL;
 }
 //
@@ -187,15 +169,15 @@ static AVL_Node* avl_node_overlying(AVL_Node* an,void* v)
 //return n1> n2 ?
 static int compare_two_node(AVL_Node* n1,AVL_Node* n2)
 {
-    if(n1==n2)
-    {
-        return 0;
-    }
+ 
     if(n1==NULL||n2==NULL)
     {
         return -1;
     }
-
+    if(n1==n2)
+    {
+        return 0;
+    }
     AVL_Node* temp=n1,*node1=NULL,*node2=NULL;
     int i=0;
     while(temp!=NULL)
@@ -320,7 +302,9 @@ AVL_Node* predecessor(AVL_Node* n)
 //
 void avl_insert(AVL_Tree* tree,void*data)
 {
+    //printf("begin insert\n");
     AVL_Node* n=my_find(tree,data);
+    //printf("here1\n");
     if(n==NULL)
     {
         AVL_Node* nn=avl_increase(tree->end);
@@ -328,16 +312,18 @@ void avl_insert(AVL_Tree* tree,void*data)
         tree->size++;
         tree->end=nn;
         tree->root=nn;
+        return;
     } 
+     //printf("here2\n");  
     int cmp_i=0;
     if((cmp_i=tree->cmp(data,n->data))==0)
-    if(cmp_i==0)
     {
         tree->del(n->data);
         n->data=tree->copy(data);
     } 
     else
     {
+        //printf("hree3\n");
         AVL_Node* nn=avl_increase(tree->end);
         tree->size++;
         tree->end=nn;
@@ -348,30 +334,34 @@ void avl_insert(AVL_Tree* tree,void*data)
         }
         else
         {
-
+        //printf("hree4\n");
             AVL_Node* temp=nn,*temp1=NULL;
-            void*data=NULL;
+            void*temp_data=NULL;
             if(compare_two_node(nn,n)>=0)
             {
+               // printf("end comp1\n");
                 while(temp!=n)
                 {
                     temp1=predecessor(temp);
-                    data=temp->data;temp->data=temp1->data;temp1->data=data;
+                    temp_data=temp->data;temp->data=temp1->data;temp1->data=temp_data;
                 
                     temp=temp1;
                 }
             } 
             else
             {
+              //  printf("end comp2\n");
                 while(temp!=n)
                 {
                     temp1=successor(temp);
-                    data=temp->data;temp->data=temp1->data;temp1->data=data;
+                    temp_data=temp->data;temp->data=temp1->data;temp1->data=temp_data;
 
                     temp=temp1;
                 }
+            //    printf("end end\n");
             }
             n->data=tree->copy(data);
+          //  printf("ennnnd\n");
         }
     }
 }
@@ -442,12 +432,40 @@ void avl_delete_data(AVL_Tree* tree,void* data)
 {
 
      AVL_Node* n= my_find(tree,data);
-     if(tree->cmp(n->data,data)==0)
+     if(tree->cmp(n->data,data)==0&&n!=NULL)
      {
          avl_delete_node(tree,n);
      }
 
  }
+static void  avl_tree_free_one_node(AVL_Tree* tree,AVL_Node*n)
+{
+    if(n==NULL||tree==NULL)
+    {
+        return;
+    }
+    if(n->left!=NULL)
+    {
+        avl_tree_free_one_node(tree,n->left);
+    }
+    if(n->right!=NULL)
+    {
+        avl_tree_free_one_node(tree,n->right);
+    }
+    tree->del(n->data);
+    free(n);
+
+
+}
+void avl_tree_free(AVL_Tree* tree)
+{
+    if(tree==NULL)
+    {
+        return ;
+    }
+    avl_tree_free_one_node(tree,tree->root);
+    free(tree);
+}
 void * avl_next(struct AVL_Trav* trav)
 {
     if(trav->it==NULL)
@@ -542,11 +560,4 @@ AVL_Trav* avl_tree_rbegin(AVL_Tree* tree)
    re->it=avltree_maximum(tree);
    return re;
 }
-void avl_trav_init(AVL_Trav* it)
-{
-    it->tree=NULL;
-    it->next=avl_next;
-    it->prev=avl_prev;
-    it->it=NULL;
-    it->prop=NULL;
-}
+AVL_Tree_func(int)
