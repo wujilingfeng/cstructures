@@ -5,10 +5,6 @@ extern "C"{
 #endif
 #include<stdlib.h>
 
-static void default_free(void *p)
-{
-    free(p);
-}
 typedef struct AVL_Node{
     struct AVL_Node* left,*right,*parent;
     void* data,*prop;
@@ -46,8 +42,8 @@ static inline void avl_node_init(AVL_Node* an)
 //input the end node of avl_tree
 //output the next increasing node of avl_tree
 //
-AVL_Node* avl_increase(AVL_Node* n);
-AVL_Node* avl_decrease(AVL_Node* n);
+//AVL_Node* avl_increase(AVL_Node* n);
+//AVL_Node* avl_decrease(AVL_Node* n);
 //AVL_Node* my_find(AVL_Tree* tree,void* data);
 void* avl_findn(AVL_Tree* tree,void* data);
 
@@ -71,7 +67,7 @@ static inline void avl_tree_init(AVL_Tree* at)
     at->end=NULL;
     at->cmp=NULL;
     at->copy=NULL;
-    at->del=default_free;
+    at->del=NULL;
     at->size=0;
     at->find=avl_findn;
     at->insert=avl_insert;
@@ -152,9 +148,14 @@ static  void iter_init_##typevalue(AVL_Trav*trav)\
     trav->first=get_key_##typevalue;\
     trav->second=get_value_##typevalue;\
 }\
+static void default_free_##typevalue(void*data)\
+{\
+    free(data);\
+}\
 void avl_tree_init_##typevalue(AVL_Tree* tree)\
 {\
     avl_tree_init(tree);\
+    tree->del=default_free_##typevalue;\
     tree->copy=avl_copy_##typevalue;\
     tree->cmp=avl_cmp_##typevalue;\
     tree->iterator_init=iter_init_##typevalue;\

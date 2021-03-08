@@ -212,7 +212,7 @@ int main(int argc,char**argv)
     rim.tree->erase(rim.tree,&rbt);
     rbt.key=80; 
 
-   // rim.tree->erase(rim.tree,&rbt);
+    //rim.tree->erase(rim.tree,&rbt);
             //printf("fdfdsfds\n") rim.tree->erase(rim.tree,&rbt);;
 
     rim.print_self();

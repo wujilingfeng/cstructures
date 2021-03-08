@@ -4,6 +4,7 @@
 #define LB_malloc malloc
 #define LB_free free
 
+
 static void RB_Tree_Node_free(RB_Tree*tree,RB_Node* node)
 {
     if(node==NULL)

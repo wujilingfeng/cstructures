@@ -20,10 +20,6 @@ typedef struct RB_Node{
 }RB_Node;
 
 
-static inline void lb_default_free(void *p)
-{
-    free(p);
-}
 //static inline void RB_Node_init(RB_Node*);
 
 typedef struct RB_Tree{
@@ -90,7 +86,7 @@ static inline void RB_Tree_init(RB_Tree* tree)
     tree->root=NULL;
     tree->cmp=NULL;
     tree->copy=NULL;
-    tree->del=lb_default_free;
+    tree->del=NULL;
     tree->size=0;
     tree->find=RB_find;
     tree->insert=RB_insert;
@@ -110,7 +106,7 @@ static inline void RB_Trav_init(RB_Trav* it)
 }
 
 #define RB_Tree_func_declare(typevalue) typedef struct RB_##typevalue{typevalue key;void* value;void* prop;}RB_##typevalue;\
-static void RB_init_##typevalue(RB_##typevalue* t)\
+static inline void RB_init_##typevalue(RB_##typevalue* t)\
 {\
 t->value=NULL;\
 t->prop=NULL;\
@@ -151,11 +147,16 @@ static void iter_init_##typevalue(RB_Trav*trav)\
 	trav->first=get_key_##typevalue;\
 	trav->second=get_value_##typevalue;\
 }\
+static void default_free_##typevalue(void* data)\
+{\
+    free(data);\
+}\
 void RB_Tree_init_##typevalue(RB_Tree* tree)\
 {\
 	RB_Tree_init(tree);\
 	tree->copy=RB_copy_##typevalue;\
 	tree->cmp=RB_cmp_##typevalue;\
+    tree->del=default_free_##typevalue;\
 	tree->iterator_init=iter_init_##typevalue;\
 }\
 

@@ -1,11 +1,8 @@
 #include<tools_avltree.h>
 
 
-
-
-
 //return the newly added node
-AVL_Node* avl_increase(AVL_Node* n)
+static AVL_Node* avl_increase(AVL_Node* n)
 {
     AVL_Node* nn=(AVL_Node*)malloc(sizeof(AVL_Node));
     avl_node_init(nn);
@@ -59,7 +56,7 @@ AVL_Node* avl_increase(AVL_Node* n)
 }
 
 //return last added node
-AVL_Node* avl_decrease(AVL_Node* n)
+static AVL_Node* avl_decrease(AVL_Node* n)
 {
     if(n==NULL||n->parent==NULL)
     {
@@ -244,6 +241,7 @@ static int compare_two_node(AVL_Node* n1,AVL_Node* n2)
 //next node which greater than n
 AVL_Node* successor(AVL_Node* n)
 {
+
     if(n==NULL)
     {
         return NULL;
