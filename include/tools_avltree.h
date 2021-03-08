@@ -5,14 +5,14 @@ extern "C"{
 #endif
 #include<stdlib.h>
 
-typedef struct AVL_Node{
-    struct AVL_Node* left,*right,*parent;
+typedef struct AVL_Tree_Node{
+    struct AVL_Tree_Node* left,*right,*parent;
     void* data,*prop;
 
-}AVL_Node;
+}AVL_Tree_Node;
 
 typedef struct  AVL_Tree{
-    AVL_Node *root,*end;
+    AVL_Tree_Node *root,*end;
     int (*cmp)(const void* p1,const void* p2);  
     void* (*copy)(void*); 
     void  (*del)(void*);  
@@ -23,12 +23,12 @@ typedef struct  AVL_Tree{
     void (*insert)(struct AVL_Tree*,void*);
     void (*erase)(struct AVL_Tree*,void*);
 //the above two function' return  is different from rbtree
-    struct AVL_Trav* (*begin)(struct AVL_Tree*);
-    struct AVL_Trav*(*rbegin)(struct AVL_Tree*);
-    void (*iterator_init)(struct AVL_Trav*); 
+    struct AVL_Tree_Trav* (*begin)(struct AVL_Tree*);
+    struct AVL_Tree_Trav*(*rbegin)(struct AVL_Tree*);
+    void (*iterator_init)(struct AVL_Tree_Trav*); 
     void* prop;
 }AVL_Tree;
-static inline void avl_node_init(AVL_Node* an)
+static inline void avl_node_init(AVL_Tree_Node* an)
 {
     an->left=NULL;
     an->right=NULL;
@@ -42,23 +42,23 @@ static inline void avl_node_init(AVL_Node* an)
 //input the end node of avl_tree
 //output the next increasing node of avl_tree
 //
-//AVL_Node* avl_increase(AVL_Node* n);
-//AVL_Node* avl_decrease(AVL_Node* n);
-//AVL_Node* my_find(AVL_Tree* tree,void* data);
+//AVL_Tree_Node* avl_increase(AVL_Tree_Node* n);
+//AVL_Tree_Node* avl_decrease(AVL_Tree_Node* n);
+//AVL_Tree_Node* my_find(AVL_Tree* tree,void* data);
 void* avl_findn(AVL_Tree* tree,void* data);
 
 
-struct AVL_Trav* avl_tree_begin(AVL_Tree* tree);
-struct AVL_Trav* avl_tree_rbegin(AVL_Tree* tree);
+struct AVL_Tree_Trav* avl_tree_begin(AVL_Tree* tree);
+struct AVL_Tree_Trav* avl_tree_rbegin(AVL_Tree* tree);
 
-//AVL_Node* my_insert(AVL_Tree* tree,void* data);
+//AVL_Tree_Node* my_insert(AVL_Tree* tree,void* data);
 
 
-AVL_Node* successor(AVL_Node* n);
-AVL_Node* predecessor(AVL_Node* n);
+AVL_Tree_Node* successor(AVL_Tree_Node* n);
+AVL_Tree_Node* predecessor(AVL_Tree_Node* n);
 
 void avl_insert(AVL_Tree* tree,void*data);
-void avl_delete_node(AVL_Tree* tree,AVL_Node* n);
+void avl_delete_node(AVL_Tree* tree,AVL_Tree_Node* n);
 void avl_delete_data(AVL_Tree* tree,void* data);
 void avl_tree_free(AVL_Tree* tree);
 static inline void avl_tree_init(AVL_Tree* at)
@@ -79,25 +79,25 @@ static inline void avl_tree_init(AVL_Tree* at)
     at->iterator_init=NULL; 
     at->prop=NULL;
 }
-typedef struct AVL_Trav{
+typedef struct AVL_Tree_Trav{
     AVL_Tree* tree;
-    AVL_Node* it;
-    void *(*next)(struct AVL_Trav*);
-    void *(*prev)(struct AVL_Trav*); 
-    void *(*first)(struct AVL_Trav*); 
-    void *(*second)(struct AVL_Trav*); 
+    AVL_Tree_Node* it;
+    void *(*next)(struct AVL_Tree_Trav*);
+    void *(*prev)(struct AVL_Tree_Trav*); 
+    void *(*first)(struct AVL_Tree_Trav*); 
+    void *(*second)(struct AVL_Tree_Trav*); 
     void* prop;
     //void * (*)
 
-}AVL_Trav;
+}AVL_Tree_Trav;
 
 
 
-void * avl_next(struct AVL_Trav* trav);
-void* avl_prev(struct AVL_Trav *trav);
+void * avl_next(struct AVL_Tree_Trav* trav);
+void* avl_prev(struct AVL_Tree_Trav *trav);
 
 
-static inline void avl_trav_init(AVL_Trav* it)
+static inline void avl_trav_init(AVL_Tree_Trav* it)
 {
     it->tree=NULL;
     it->next=avl_next;
@@ -135,15 +135,15 @@ static void* avl_copy_##typevalue(void* p)\
     memmove(re,p,sizeof(AVL_##typevalue));\
     return re;\
 }\
-static  void * get_key_##typevalue(AVL_Trav* trav)\
+static  void * get_key_##typevalue(AVL_Tree_Trav* trav)\
 {\
     return (void*)(&(((AVL_##typevalue*)(trav->it->data))->key));\
 }\
-static  void* get_value_##typevalue(AVL_Trav*trav)\
+static  void* get_value_##typevalue(AVL_Tree_Trav*trav)\
 {\
     return ((AVL_##typevalue*)(trav->it->data))->value;\
 }\
-static  void iter_init_##typevalue(AVL_Trav*trav)\
+static  void iter_init_##typevalue(AVL_Tree_Trav*trav)\
 {\
     trav->first=get_key_##typevalue;\
     trav->second=get_value_##typevalue;\

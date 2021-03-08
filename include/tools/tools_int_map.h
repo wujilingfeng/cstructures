@@ -20,18 +20,18 @@ public:
 		if(this->tree!=NULL)
 		{
 
-			RB_Tree_free((this->tree));
+			rb_tree_free((this->tree));
 		}
 		this->tree=NULL;
 	}
 	void init()
 	{
 		this->tree=(RB_Tree*)malloc(sizeof(RB_Tree));
-		RB_Tree_init_int((this->tree));
+		rb_tree_init_int((this->tree));
 	}
 	void clear()
 	{
-		RB_Tree_free(this->tree);
+		rb_tree_free(this->tree);
 		this->tree=NULL;
 	}
 	unsigned int size()
@@ -42,12 +42,12 @@ public:
 		}
 		return tree->size;
 	}
-	RB_int* insert(int i,void*data)
+	void insert(int i,void*data)
 	{
 		RB_int rbt;
 		rbt.key=i;
 		rbt.value=data;
-		return (RB_int*)this->tree->insert(this->tree,&rbt);
+		(this->tree->insert(this->tree,&rbt));
 
 	}
 	/*RB_int* operator[](int i)
@@ -56,38 +56,38 @@ public:
 		rbt.key=i;
 		return (RB_int*)this->tree->find(this->tree,&rbt);
 	}*/
-	RB_Trav begin()
-	{	RB_Trav*it=this->tree->begin(this->tree);
-		RB_Trav re=*it;
+	RB_Tree_Trav begin()
+	{	RB_Tree_Trav*it=this->tree->begin(this->tree);
+		RB_Tree_Trav re=*it;
 		free(it);
 		return re;
 	}
-	RB_Trav rbegin()
-	{	RB_Trav*it=this->tree->rbegin(this->tree);
-		RB_Trav re=*it;
+	RB_Tree_Trav rbegin()
+	{	RB_Tree_Trav*it=this->tree->rbegin(this->tree);
+		RB_Tree_Trav re=*it;
 		free(it);
 		return re;
 	}
-	RB_Trav end()
+	RB_Tree_Trav end()
 	{
-		RB_Trav re;
-		RB_Trav_init(&re);
+		RB_Tree_Trav re;
+		rb_tree_trav_init(&re);
 		return re;
 	}
-	RB_Trav find(int i)
+	RB_Tree_Trav find(int i)
 	{
-		RB_Trav re;
-		RB_Trav_init(&re);
+		RB_Tree_Trav re;
+		rb_tree_trav_init(&re);
 		if(this->tree->iterator_init!=NULL)
 		{
 			this->tree->iterator_init(&re);
 		}
 		RB_int rbt;
 		rbt.key=i;
-		re.it=(RB_find1(this->tree,&rbt));	
+		re.it=(rb_tree_find(this->tree,&rbt));	
 		return re;
 	}
-	void erase(RB_Trav it)
+	void erase(RB_Tree_Trav it)
 	{
 		this->tree->erase(this->tree,it.it->data);	
 	}

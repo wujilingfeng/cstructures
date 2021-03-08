@@ -37,7 +37,7 @@ static int t_cmp(const void* p1,const void* p2)
 void test_rb()
 {
     RB_Tree*tree=(RB_Tree*)malloc(sizeof(RB_Tree));
-    RB_Tree_init_int(tree);
+    rb_tree_init_int(tree);
     RB_int rbt,*rbt1;
     for(int i=0;i<99;i++)
     {
@@ -53,7 +53,7 @@ void test_rb()
     {
         printf("dfsdfdn\n");
     }
-    RB_Tree_free(tree);
+    rb_tree_free(tree);
 
    /* RB_Tree* tree=(RB_Tree*)LB_malloc(sizeof(RB_Tree));
     RB_Tree_init(tree);
@@ -212,7 +212,7 @@ int main(int argc,char**argv)
     rim.tree->erase(rim.tree,&rbt);
     rbt.key=80; 
 
-    //rim.tree->erase(rim.tree,&rbt);
+    rim.tree->erase(rim.tree,&rbt);
             //printf("fdfdsfds\n") rim.tree->erase(rim.tree,&rbt);;
 
     rim.print_self();
