@@ -1,58 +1,9 @@
-/*
-  Copyright (c) 2013, Phil Vachon <phil@cowpig.ca>
-  All rights reserved.
 
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
-
-  - Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-
-  - Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-  TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-  PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
-  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/** \defgroup rb_tree_implementation Implementation Details
- * All the implementation details for the red-black tree, including functions for
- * the maintenance of tree properties.
- * @{
- */
-
-/** \file rbtree.c
- * An implementation of an intrusive red-black self-balancing tree, that can
- * be used to implement red-black trees in situations where memory allocation
- * is not an option.
- *
- * This file exclusively contains implementation details for the red-black tree, so
- * probably is not of much interest to most people.
- *
- * \see rbtree.h
- * \see RB_Tree
- * \see RB_Tree_Node
- */
 
 #include <tools_rbtree.h>
 
 #include <stdlib.h>
 #include <string.h>
-
-/** \defgroup rb_tree_colors Colors for the red-black tree nodes
- * @{
- */
 
 /**
  * Node is black
@@ -787,65 +738,3 @@ void* rb_tree_prev(struct RB_Tree_Trav *trav)
 
 
 RB_Tree_func(int)
-
-
-/**
- * \mainpage An Intrusive Red-Black Tree
- *
- * The goal of this implementation is to be both easy to use, but also
- * sufficiently powerful enough to perform all the operations that one might
- * typically want to do with a red-black tree.
- *
- * To make a structure usable with an RB_Tree, you must embed the structure
- * struct RB_Tree_Node. 
- * \code
-    struct my_sample_struct {
-        const char *name;
-        int data;
-        struct RB_Tree_Node rnode;
-    };
- * \endcode
- * \note `RB_Tree_Node` need not be initialized -- it is initialized during the
- *       insertion operation.
- *
- * Next, you must declare a comparison function that, given a pointer to two
- * keys, returns a value less than 0 if the left-hand side is less than the
- * right-hand side, 0 if the left-hand side is equal to the right-hand side,
- * or greater than 0 if the left-hand side is greater than the left-hand side.
- *
- * A simple example for a string might use the `strcmp(3)` function directly,
- * as such:
- *
- * \code
-    int my_sample_struct_compare_keys(void *lhs, void *rhs)
-    {
-        return strcmp((const char *)lhs, (const char *)rhs);
-    }
- * \endcode
- * \note the function you create for your comparison function must conform to
- *       rb_cmp_func_t, or the compiler will generate a warning and, if you're
- *       unlucky, you will fail catastrophically at a later date.
- *
- * Then, to create a new, empty red-black tree, call rb_tree_init, as so:
- * \code
-    struct RB_Tree my_rb_tree;
-    if (rb_tree_init(&my_rb_tree, my_sample_struct_compare_keys) != RB_OK) {
-        exit(EXIT_FAILURE);
-    }
- * \endcode
- *
- * Items can be added to the red-black tree using the function `rb_tree_insert`:
- * \code
-    struct my_sample_struct node = { .name = "test1", .date = 42 };
-    if (rb_tree_insert(&my_rb_tree, node.name, &(node.rnode)) != RB_OK) {
-        printf("Failed to insert a node into the RB tree!\n");
-        exit(EXIT_FAILURE);
-    }
- * \endcode
- *
- * \see RB_Tree
- * \see RB_Tree_Node
- * \see rb_functions
- * \see rbtree.h
- */
-

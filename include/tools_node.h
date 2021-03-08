@@ -1,5 +1,5 @@
-#ifndef NODE_CONTAINER_H
-#define NODE_CONTAINER_H
+#ifndef _NODE_CONTAINER_H
+#define _NODE_CONTAINER_H
 #ifdef __cplusplus
 extern "C"{
 #endif
