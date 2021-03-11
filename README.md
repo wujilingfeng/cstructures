@@ -83,32 +83,38 @@ xmake
 
 以下是RB_Tree内部成员的意义
 
-| 接口                                          | 意义                                               |
-| --------------------------------------------- | -------------------------------------------------- |
-| size                                          | 树的节点数                                         |
-| int (\*cmp)(const void\* ,const void\*)       | 值的比较函数，1表示大于，0表示等于，-1表示小于     |
-| void\* (* copy)(void\*)                       | 树的复制j节点data的函数                            |
-| void (\* del)(void\*)                         | 树 的释放节点内部data的函数                        |
-| void\* (\*find)(struct  RB_Tree\*,void\*v)    | 查找树值为v的节点                                  |
-| void\*(\* insert)(strcut RB_Tree\*,void\*v)   | 插入树以copy(v)为值的节点,copy正是上面的从copy函数 |
-| int(\* erase)(RB_Tree\* tree,void\* data)     | 释放树以data为值的节点,释放函数时上面的del函数     |
-| struct RB_Trav\*(\* begin)(struct RB_Tree\*)  | 返回树的遍历结构体，RB_Trav指向开端                |
-| struct RB_Trav\*(\* rbegin)(struct RB_Tree\*) | 返回树的遍历结构体，RB_Trav指向末端                |
-| void(\iterator_init)(struct RB_Trav\*)        | 初始化RB_Trav的函数                                |
+| 接口                                               | 意义                                               |
+| -------------------------------------------------- | -------------------------------------------------- |
+| size                                               | 树的节点数                                         |
+| int (\*cmp)(const void\* ,const void\*)            | 值的比较函数，1表示大于，0表示等于，-1表示小于     |
+| void\* (* copy)(void\*)                            | 树的复制j节点data的函数                            |
+| void (\* del)(void\*)                              | 树 的释放节点内部data的函数                        |
+| void\* (\*find)(struct  RB_Tree\*,void\*v)         | 查找树值为v的节点                                  |
+| void\*(\* insert)(strcut RB_Tree\*,void\*v)        | 插入树以copy(v)为值的节点,copy正是上面的从copy函数 |
+| int(\* erase)(RB_Tree\* tree,void\* data)          | 释放树以data为值的节点,释放函数时上面的del函数     |
+| struct RB_Tree_Trav\*(\* begin)(struct RB_Tree\*)  | 返回树的遍历结构体，RB_Tree_Trav指向开端           |
+| struct RB_Tree_Trav\*(\* rbegin)(struct RB_Tree\*) | 返回树的遍历结构体，RB_Tree_Trav指向末端           |
+| void(\iterator_init)(struct RB_Tree_Trav\*)        | 初始化RB_Tree_Trav的函数                           |
 
 一般来说，上面的函数只有size ,find ,insert,erase,begin,rbegin是用户用到的。
 
-RB_Trav的接口:
+RB_Tree_Trav的接口:
 
-| 接口                               | 意义                                 |
-| ---------------------------------- | ------------------------------------ |
-| tree                               | 指向的树                             |
-| it                                 | 当前迭代器指向的节点                 |
-| void\*(\*next)(struct RB_Trav\*)   | 使it指向下一个节点，然后返回it的data |
-| void\*(\*prev)(struct RB_Trav\*)   | 使it指向上一个节点，然后返回it的data |
-| void\*(\*first)(struct RB_Trav\*)  | 仿std::map接口，返回data的key部分    |
-| void\*(\*second)(struct RB_Trav\*) | 仿std::map接口，返回data的value部分  |
-|                                    |                                      |
+| 接口                                    | 意义                                 |
+| --------------------------------------- | ------------------------------------ |
+| tree                                    | 指向的树                             |
+| it                                      | 当前迭代器指向的节点                 |
+| void\*(\*next)(struct RB_Tree_Trav\*)   | 使it指向下一个节点，然后返回it的data |
+| void\*(\*prev)(struct RB_Tree_Trav\*)   | 使it指向上一个节点，然后返回it的data |
+| void\*(\*first)(struct RB_Tree_Trav\*)  | 仿std::map接口，返回data的key部分    |
+| void\*(\*second)(struct RB_Tree_Trav\*) | 仿std::map接口，返回data的value部分  |
+|                                         |                                      |
+
+##### AVL_Tree
+
+设计和接口完全类似RB_Tree。
+
+
 
 ##### c++ iterator
 
@@ -117,8 +123,15 @@ RB_Trav的接口:
 ```c
 for(Node it=*n;*nit!=NULL;nit++)
 {}
-for(RB_Trav it=*rt;it.it!=NULL;it++)
+//rt是RB_Tree_Trav指针
+for(RB_Tree_Trav it=*rt;it.it!=NULL;it++)
 {}
+//at是AVL_Tree_Trav指针
+for(AVL_Tree_Trav it=*at;it.it!=NULL;it++)
+{
+    
+}
+
 
 ```
 
