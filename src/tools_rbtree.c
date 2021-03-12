@@ -5,69 +5,39 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * Node is black
- */
+
 #define COLOR_BLACK                     0x0ull
 
-/**
- * Node is red
- */
-#define COLOR_RED                       0x1ull
-/**@}*/
 
-/**
- * \defgroup rb_tree_ptr_helpers Helpers for red-back tree node colors
- * @{
- */
+#define COLOR_RED                       0x1ull
+
 
 #ifdef _RB_USE_AUGMENTED_PTR /* Should we augment the pointer with the color metadata */
-/**
- * How much we shift the parent pointer by to get the color of the node
- */
+
 #define RB_TREE_COLOR_SHIFT                         63 /* TODO: parameterize me */
 
-/**
- * The parent pointer mask, to mask out the color
- */
+
 #define RB_TREE_PARENT_PTR_MASK                     ((1ull << RB_TREE_COLOR_SHIFT) - 1)
 
-/**
- * Get the color mask from parent pointer
- */
 #define _RB_TREE_GET_PARENT_COLOR_MASK(__node)      (((size_t)(__node)->parent) & ~RB_TREE_PARENT_PTR_MASK)
 
-/**
- * Extract the color for the node
- */
 #define RB_TREE_NODE_GET_COLOR(_node)               ((((size_t)(_node)->parent) >> RB_TREE_COLOR_SHIFT) & 1)
 
-/**
- * Set the color for the node
- */
 #define RB_TREE_NODE_SET_COLOR(_node, _color)       do { (_node)->parent = (struct RB_Tree_Node *)((((size_t)(_node)->parent) & RB_TREE_PARENT_PTR_MASK) | ((_color) << RB_TREE_COLOR_SHIFT)); } while (0)
 
-/**
- * Get the parent for the node
- */
+
 #define RB_TREE_NODE_GET_PARENT(_node)              ((struct RB_Tree_Node *)(((size_t)(_node)->parent) & RB_TREE_PARENT_PTR_MASK))
 
-/**
- * Set the parent for the node
- */
+
 #define RB_TREE_NODE_SET_PARENT(_node, _parent)     do { (_node)->parent = (struct RB_Tree_Node *)((size_t)(_parent) | _RB_TREE_GET_PARENT_COLOR_MASK((_node))); } while (0)
 
-#else /* !defined(_RB_USE_AUGMENTED_PTR) */
-
+#else
 #define RB_TREE_NODE_GET_COLOR(_node)               ((_node)->color)
 #define RB_TREE_NODE_SET_COLOR(_node, _color)       do { ((_node)->color = (_color)); } while (0)
 #define RB_TREE_NODE_GET_PARENT(_node)              ((_node)->parent)
 #define RB_TREE_NODE_SET_PARENT(_node, _parent)     do { ((_node)->parent = (_parent)); } while (0)
 
-#endif /* defined(_RB_USE_AUGMENTED_PTR) */
-
-/**@}*/
-
+#endif 
 
 
 static void rb_tree_free_one_node(struct RB_Tree*tree,struct RB_Tree_Node*n)
