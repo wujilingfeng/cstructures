@@ -4,6 +4,7 @@
 #include<tools_rbtree.h>
 #include<tools_avltree.h>
 #include <tools/tools_int_map.h>
+#include<time.h>
 
 int memery_leak_from_RB_Tree_compute;
 int memery_leak_from_RB_Tree_compute_f;
@@ -142,36 +143,25 @@ void test_bub()
 
 void test_avltree()
 {
-    AVL_Tree * tree=(AVL_Tree*)malloc(sizeof(AVL_Tree));
-    avl_tree_init_int(tree);
-    AVL_int at,*at1;
-    at.key=-18;tree->insert(tree,&at);
-
-    //printf("tree size:%d\n",tree->size);
-    at.key=5;tree->insert(tree,&at);
-    at.key=7;tree->insert(tree,&at);
-    at.key=-9;tree->insert(tree,&at);
-    at.key=0;tree->insert(tree,&at);
-    at.key=-50;tree->insert(tree,&at);
-    at.key=3;tree->insert(tree,&at);
-    at.key=8;tree->insert(tree,&at);
-
-    at.key=100;tree->insert(tree,&at);
-    at.key=-100;tree->insert(tree,&at);
-    at.key=50;tree->insert(tree,&at);
-    at.key=26;tree->insert(tree,&at);
-    at.key=75;tree->insert(tree,&at);
-    at.key=0;tree->erase(tree,&at);
-    at.key=26;tree->erase(tree,&at);
-    at.key=50;tree->erase(tree,&at);
-    at.key=3;
-    //printf("tree size:%d\n",tree->size);
-    at1=(AVL_int*)(tree->find(tree,&at));
-    if(at1!=NULL)
+    RB_INT_MAP rim;
+    srand((unsigned)time(NULL)); 
+    int  values[100];
+    for(int i=0;i<100;i++)
     {
-        printf("chenggong:%d\n",at1->key);
+        values[i]=rand()%1000-500;
+       // printf("%d\n",values[i] );
+        rim.insert(values[i],NULL);
     } 
-    avl_tree_free(tree);
+
+
+    RB_int rbt;
+    for(int i=0;i<100;i++)
+    {
+        rbt.key=values[i];
+        rim.tree->erase(rim.tree,&rbt);
+    } 
+// rim.print_self();
+
 }
 int main(int argc,char**argv)
 {   
