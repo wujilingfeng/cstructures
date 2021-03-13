@@ -100,7 +100,7 @@ static inline void rb_tree_trav_init(RB_Tree_Trav*it)
   it->it=NULL;
   it->prop=NULL;
 }
-
+void rb_tree_trav_free(struct RB_Tree_Trav*trav);
 
 
 void rb_tree_free(struct RB_Tree *tree);

@@ -67,7 +67,10 @@ void rb_tree_free(struct RB_Tree *tree)
     rb_tree_free_one_node(tree,tree->root);
     free(tree);
 }
-
+void rb_tree_trav_free(struct RB_Tree_Trav*trav)
+{
+    free(trav);
+}
 
 
 RB_Tree_Node* rb_tree_find(struct RB_Tree *tree,void *data)

@@ -23,6 +23,7 @@ public:
 			rb_tree_free((this->tree));
 		}
 		this->tree=NULL;
+	
 	}
 	void init()
 	{
@@ -94,14 +95,15 @@ public:
 	void print_self()
 	{
 		printf("size:%d\n",this->tree->size);
+		int i=0;
 		for(auto it=this->begin();it!=this->end();it++)
 		{
-
+			i++;
         	printf("%d   ",*((int*)it.first(&it)));
 		}	
 
 
-    	printf("\n");
+    	printf("end size :%d\n",i);
 	}	
 	RB_Tree*tree;
 
