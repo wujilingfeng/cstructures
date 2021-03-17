@@ -45,7 +45,7 @@ static inline void rb_tree_node_init(RB_Tree_Node* node)
     node->data=NULL;
     node->prop=NULL;
 #ifndef _RB_USE_AUGMENTED_PTR
-    node->color=0
+    node->color=0;
 #endif
 }
 
