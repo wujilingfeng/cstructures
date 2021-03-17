@@ -15,10 +15,11 @@ xmake f -p mingw  --demo=y --demo_path="Demo"
 xmake 
 ```
 
-xmake for windows cl(vs的编译器)
+xmake for vsxmake
 
 ```bash
-xmake --demo=y --demo_path="Demo"
+xmake f --demo=y --demo_path="Demo"
+xmake project -k vsxmake
 ```
 
 xmake for cmake(for mingw)
